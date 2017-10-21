@@ -6,10 +6,10 @@ const app = express();
 app.use(express.static(__dirname + '/app/'));
 
 app.get('/', function (req, res) {
-  res.sendfile(path.resolve('./app/index.html'))
+  res.sendFile(path.resolve('./app/index.html'))
 })
 app.get('/editor', function (req, res) {
-  res.sendfile(path.resolve('./app/editor.html'))
+  res.sendFile(path.resolve('./app/editor.html'))
 })
 
 app.listen(port, function () {

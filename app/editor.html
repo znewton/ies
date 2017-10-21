@@ -13,8 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="lib/codemirror/codemirror.css">
-    <title>Editor | IES - Internet Enhancement Suite</title>
     <link rel="stylesheet" href="app.css">
+    <title>Editor | IES - Internet Enhancement Suite</title>
+    <link rel="stylesheet" href="lib/codemirror/theme/base16-dark.css">
   </head>
   <body>
     <div id="editor">
@@ -22,8 +23,12 @@
         <button id="css-editor-tab-button">CSS</button>
         <button id="js-editor-tab-button">JS</button>
       </nav>
-      <div id="css-editor-tab" role="tab">css</div>
-      <div id="js-editor-tab" role="tab">js</div>
+      <div id="css-editor-tab" role="tab">
+        <div id="css-text-area" class="editor"></div>
+      </div>
+      <div id="js-editor-tab" role="tab">
+        <div id="js-text-area" class="editor"></div>
+      </div>
     </div>
     <div id="separator"></div>
     <div id="preview">This will eventually be a preview</div>
