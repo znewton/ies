@@ -1,0 +1,34 @@
+{
+  "name": "ies-server",
+  "version": "1.0.0",
+  "description": "The NodeJS server for Internet Enhancement Suite",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znewton/ies.git"
+  },
+  "keywords": [
+    "Internet",
+    "Enhancement",
+    "Suite"
+  ],
+  "author": "znewton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/znewton/ies/issues"
+  },
+  "homepage": "https://github.com/znewton/ies#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "path": "^0.12.7",
+    "query-string": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
