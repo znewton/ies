@@ -111,6 +111,7 @@ button, input {
   position: relative;
   height: 2.4em;
   display: flex;
+  z-index: 2;
   box-shadow: 0 3px 5px rgba(0,0,0,0.1);
 }
 #preview nav .preview-url-input-wrapper {
@@ -127,6 +128,9 @@ button, input {
 }
 #preview nav .preview-view-toggle-wrapper {
   flex-grow: 1;
+}
+#preview nav .preview-view-toggle-wrapper::selection {
+  background: transparent;
 }
 
 #preview nav .preview-view-toggle-wrapper input {
@@ -168,4 +172,19 @@ button, input {
   background-color: #fefefe;
   color: #2e2e2e;
   border-bottom: 2px solid #1da1f2;
+}
+
+#preview [role="tab"] {
+  z-index: 1;
+  display: none;
+  position: absolute;
+  top: 2.4em;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 2.4em);
+  background-color: #fefefe;
+}
+
+#preview [role="tab"].open {
+  display: block;
 }
