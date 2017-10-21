@@ -69,6 +69,7 @@ function sendSiteToEdit() {
     if (xhr.readyState === DONE) {
       if (xhr.status === OK)  {
         rawHtmlViewBlock.innerText = xhr.responseText;
+        PR.prettyPrint();
         renderedViewIframe.src = endpoint + "/temp/" + sessionId + "/temp.html";
       }
     };

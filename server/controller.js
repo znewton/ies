@@ -39,7 +39,14 @@ exports.gen_session_id = function (request, response) {
           fs.appendFile(TEMP_DIR+sessionId+'/temp.css', '/* your css here */',  function(csserr) {
             if (!err) {
               console.log('Successfully created css file: ' + TEMP_DIR+sessionId+'/temp.css')
-              success();
+              fs.writeFile(TEMP_DIR+sessionId+'/temp.html', '', 'utf8', function (htmlerr) { 
+                if (!htmlerr) {
+                  console.log('Successfully created html file: ' + TEMP_DIR+sessionId+'/temp.html')
+                  success();
+                } else {
+                  failure('html', htmlerr);
+                }
+              });
             } else {
               failure('css', csserr);
             }
@@ -82,7 +89,7 @@ exports.get_code = function (request, response) {
     site: sessions[sessionId].site,
     html: html ? decoder.write(html) : ''
   }
-  console.log("Returning: ", output);
+  // console.log("Returning: ", output);
   response.json(output);
 }
 
@@ -103,7 +110,7 @@ exports.upload_code = function (request, response) {
   }
   fs.writeFile(TEMP_DIR+sessionId+'/temp.js', js, 'utf8', function (jserr) {
     if (!jserr) {
-      fs.writeFileSync(TEMP_DIR+sessionId+'/temp.css', css, 'utf8', function (csserr) {
+      fs.writeFile(TEMP_DIR+sessionId+'/temp.css', css, 'utf8', function (csserr) {
         if (!csserr) {
           response.status(200).send('Success')
         } else {
@@ -157,7 +164,26 @@ exports.set_session_url = function (request, response) {
       html += data;
     })
     res.on('end', function () {
-      fs.appendFile(TEMP_DIR+sessionId+'/temp.html', html,  function(err) {
+      var startHeadIndex = html.indexOf("<head>")+"<head>".length;
+      if (startHeadIndex >= 0) {
+        var baseUrl = parsedUrl.href;
+        html = [html.slice(0,startHeadIndex),
+           '<base href = "'+baseUrl+'" />',
+           html.slice(startHeadIndex)].join('');
+      }
+      var endHeadIndex = html.indexOf("</head>");
+      if (endHeadIndex >= 0) {
+        html = [html.slice(0,endHeadIndex), 
+          '<link rel="stylesheet" href="http://localhost:3000/temp/'+sessionId+'/temp.css">',
+          html.slice(endHeadIndex)].join('');
+      }
+      var endBodyIndex = html.indexOf("</body>");
+      if (endBodyIndex >= 0) {
+        html = [html.slice(0,endBodyIndex), 
+          '<script href="http://localhost:3000/temp/'+sessionId+'/temp.js"></scrip>',
+          html.slice(endBodyIndex)].join('');
+      }
+      fs.writeFile(TEMP_DIR+sessionId+'/temp.html', html,  function(err) {
         if (!err) {
           console.log('Successfully created html file: ' + TEMP_DIR+sessionId+'/temp.html')
           response.status(200).send(html);

@@ -118,8 +118,8 @@ function sendCode() {
     var OK = 200; // status 200 is a successful return.
     if (xhr.readyState === DONE) {
       if (xhr.status === OK)  {
-        if (renderedViewIframe) {
-          renderedViewIframe.content.window.location.reload();
+        if (renderedViewIframe && renderedViewIframe.src) {
+          renderedViewIframe.src = renderedViewIframe.src;
         }
       }
     };
