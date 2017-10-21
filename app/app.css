@@ -8,7 +8,7 @@ body {
   overflow: false;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
-button {
+button, input {
   font-family: inherit;
   font-size: inherit;
 }
@@ -16,19 +16,22 @@ button {
   position: fixed;
   top: 0;
   height: 100vh;
-  width: 50vw;
+  width: 49.75vw;
 }
 
 /* Editor Styling */
 #editor {
   left: 0;
   background-color: #4e4e4e;
-  border-right: 1px solit 
+  overflow: hidden;
 }
 #editor nav {
+  position: relative;
   height: 2.4em;
   display: flex;
   background-color: #2e2e2e;
+  z-index: 2;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.3);
 }
 #editor nav button {
   flex-basis: 1;
@@ -58,13 +61,14 @@ button {
 }
 
 #editor [role="tab"] {
+  z-index: 1;
   display: none;
   position: absolute;
   top: 2.4em;
   left: 0;
   width: 100%;
   height: calc(100vh - 2.4em);
-  background-color: red;
+  background-color: #2e2e2e;
 }
 
 #editor [role="tab"].open {
@@ -72,6 +76,7 @@ button {
 }
 
 .editor {
+  z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
@@ -99,5 +104,68 @@ button {
 
 /* Preview Styling */
 #preview {
-  right: 100vw;
+  right: 0;
+}
+
+#preview nav {
+  position: relative;
+  height: 2.4em;
+  display: flex;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
+#preview nav .preview-url-input-wrapper {
+  flex-grow: 6;
+}
+#preview nav .preview-url-input-wrapper input {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 100%;
+  padding: 0 0.5em;
+  border: none;
+  border-right: 1px solid #ddd;
+}
+#preview nav .preview-view-toggle-wrapper {
+  flex-grow: 1;
+}
+
+#preview nav .preview-view-toggle-wrapper input {
+  display: none;
+}
+#preview nav .preview-view-toggle-wrapper label {
+  display: block;
+  height: 100%;
+}
+#preview nav .preview-view-toggle-wrapper label {
+  display: flex;
+  height: 100%;
+  vertical-align: middle;
+}
+#preview nav .preview-view-toggle-wrapper label > div {
+  display: inline-block;
+  color: #4e4e4e;
+  width: 50%;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 100%;
+  background-color: #efefef;
+  transition: background-color 150ms ease;
+  padding-top: 0.3em;
+  box-sizing: border-box;
+}
+#preview nav .preview-view-toggle-wrapper label > div:hover {
+  cursor: pointer;
+  background-color: rgba(29, 161, 242, 0.3);
+}
+#preview nav .preview-view-toggle-wrapper label > div:first-of-type {
+  border-right: 1px solid #1e1e1e;
+}
+/* left switch on when checked */
+/* right switch on when not checked */
+#preview nav .preview-view-toggle-wrapper input:checked + label > div:first-of-type,
+#preview nav .preview-view-toggle-wrapper input:not(:checked) + label > div:last-of-type {
+  background-color: #fefefe;
+  color: #2e2e2e;
+  border-bottom: 2px solid #1da1f2;
 }

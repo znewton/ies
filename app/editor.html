@@ -31,7 +31,20 @@
       </div>
     </div>
     <div id="separator"></div>
-    <div id="preview">This will eventually be a preview</div>
+    <div id="preview">
+      <nav>
+        <div class="preview-url-input-wrapper">
+          <input type="text" name="url" id="url-input" value="" placeholder="http://www.example.com" >
+        </div>
+        <div class="preview-view-toggle-wrapper">
+          <input type="checkbox" name="view_toggle" id="view-toggle" >
+          <label for="view-toggle">
+            <div class="material-icons" title="Rendered View">visibility</div>
+            <div class="material-icons" title="Raw HTML View">code</div>
+          </label>
+        </div>
+      </nav>
+    </div>
     
     <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
     <script>

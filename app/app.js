@@ -56,6 +56,7 @@ function closeJSTab() {
   jsEditorTab.classList.remove('open');
   jsEditorTabButton.classList.remove('selected');
 }
+openCSSTab();
 
 // Set Event Listeners
 cssEditorTabButton.addEventListener('click', function () {
@@ -66,8 +67,8 @@ jsEditorTabButton.addEventListener('click', function () {
 });
 (function applyResizeListeners() {
   var resize = function (e) {
-    editor.style.width = (e.clientX)+"px";
-    preview.style.width = (window.innerWidth - e.clientX) + "px";
+    editor.style.width = (e.clientX - (0.0025*window.innerWidth))+"px";
+    preview.style.width = (window.innerWidth - e.clientX - (0.0025*window.innerWidth)) + "px";
     separator.style.left = (e.clientX - (0.0025*window.innerWidth)) + "px";
     separator.style.right = (e.clientX + (0.0025*window.innerWidth)) + "px";
   }
@@ -84,7 +85,3 @@ jsEditorTabButton.addEventListener('click', function () {
     window.addEventListener('mouseup', endResize);
   });
 })()
-
-
-// Initialize
-openCSSTab();
