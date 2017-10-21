@@ -50,6 +50,7 @@ function getSessionCode() {
         css = response.css;
         setJSCode(js);
         setCSSCode(css);
+        setPreviewUrl(response.site, response.html);
       } else {
         console.log('Error: ' + xhr.status, xhr.responseText); // An error occurred during the request.
         console.log("Getting new Session");

@@ -32,6 +32,7 @@ module.exports = function(app) {
       res.sendFile(path.resolve(__dirname, '/', 'index.html'))
     })
   app.route('/session')
+    .post(controller.set_session_url)
     .get(controller.gen_session_id);
   app.route('/code')
     .post(controller.upload_code)

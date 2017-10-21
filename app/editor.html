@@ -46,8 +46,12 @@
           </label>
         </div>
       </nav>
-      <div id="rendered-view-tab" role="tab">Rendered View</div>
-      <div id="raw-html-view-tab" role="tab">Raw HTML View</div>
+      <div id="rendered-view-tab" role="tab">
+        <iframe id="rendered-view-frame"></iframe>
+      </div>
+      <div id="raw-html-view-tab" role="tab">
+        <pre id="raw-html-view-block"></pre>
+      </div>
     </div>
     
     <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>

@@ -9,6 +9,10 @@ var jsTextArea = document.getElementById("js-text-area");
 var cssTextArea = document.getElementById("css-text-area");
 var separator = document.getElementById("separator");
 
+var renderedViewIframe = document.getElementById("rendered-view-frame");
+var renderedViewTab = document.getElementById("rendered-view-tab");
+var rawHtmlViewTab = document.getElementById("raw-html-view-tab");
+
 // Codemirror
 var cmDefaults = {
   lineNumbers: true,
@@ -75,12 +79,14 @@ jsEditorTabButton.addEventListener('click', function () {
   var endResize = function(e) {
     e.preventDefault();
     e.stopPropagation();
+    renderedViewIframe.style['pointer-events'] = null;
     window.removeEventListener('mousemove', resize);
     window.removeEventListener('mouseup', endResize);
   }
   separator.addEventListener('mousedown', function(e) {
     e.preventDefault();
     e.stopPropagation();
+    renderedViewIframe.style['pointer-events'] = 'none';
     window.addEventListener('mousemove', resize);
     window.addEventListener('mouseup', endResize);
   });
@@ -100,28 +106,43 @@ function debounce(func, wait) {
 }
 
 function sendCode() {
-
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', endpoint + '/code?session=' + sessionId);
+  xhr.setRequestHeader('Content-type', 'application/json');
+  xhr.send(JSON.stringify({
+    js: jsEditor.getValue(),
+    css: cssEditor.getValue()
+  }));
+  xhr.onreadystatechange = function () {
+    var DONE = 4; // readyState 4 means the request is done.
+    var OK = 200; // status 200 is a successful return.
+    if (xhr.readyState === DONE) {
+      if (xhr.status === OK)  {
+        if (renderedViewIframe) {
+          renderedViewIframe.content.window.location.reload();
+        }
+      }
+    };
+  }
 }
 
 (function applyEditorChangeListeners() {
   var onJSChange = debounce(function() {
-    console.log(jsEditor.getValue());
+    sendCode();
   }, 1000);
   var onCSSChange = debounce(function() {
-    console.log(cssEditor.getValue());
+    sendCode();
   }, 1000);
   jsEditor.on('change', onJSChange);
   cssEditor.on('change', onCSSChange);
 })()
 
 function setJSCode(value) {
-  console.log(value);
   jsEditor.setValue(value || '');
   jsEditor.refresh();
 }
 
 function setCSSCode(value) {
-  console.log(value);
   cssEditor.setValue(value || '');
   cssEditor.refresh();
 }

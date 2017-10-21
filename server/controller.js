@@ -1,4 +1,6 @@
 const https = require('https');
+const http = require('http');
+const URL = require('url');
 const querystring = require('query-string');
 const { StringDecoder } = require('string_decoder');
 const fs = require('fs');
@@ -14,7 +16,10 @@ exports.gen_session_id = function (request, response) {
     // generate random alphanumeric string of length 30
     sessionId = (Math.random()*1e49).toString(36).slice(2).toUpperCase();
   } while (sessions[sessionId]);
-  sessions[sessionId] = Date.now();
+  sessions[sessionId] = {
+    timestamp: Date.now(),
+    site: ''
+  };
   function success() {
     response.json({
       sessionId: sessionId
@@ -65,17 +70,107 @@ exports.get_code = function (request, response) {
   var decoder = new StringDecoder('utf8')
   var js = fs.readFileSync(TEMP_DIR+sessionId+'/temp.js');
   var css = fs.readFileSync(TEMP_DIR+sessionId+'/temp.css');
-  var output = {
+  var html = null;
+  try {
+    html = fs.readFileSync(TEMP_DIR+sessionId+'/temp.html');
+  } catch (e) {
+    html = null;
+  }
+  output = {
     js: decoder.write(js),
-    css: decoder.write(css)
+    css: decoder.write(css),
+    site: sessions[sessionId].site,
+    html: html ? decoder.write(html) : ''
   }
   console.log("Returning: ", output);
   response.json(output);
 }
 
 exports.upload_code = function (request, response) {
-  console.log('Recieved: Request to Upload CSS');
-  console.log(request.params);
-  var js = request.params.js || '';
-  var css = request.params.css || '';
+  console.log('Recieved: Request to Upload Code');
+  console.log(request.body);
+  var js = request.body.js || '';
+  var css = request.body.css || '';
+  var query = request.query;
+  console.log(query);
+  console.log(sessions);
+  var sessionId = query.session;
+  console.log(sessionId);
+  if (!sessionId || !sessions[sessionId]) {
+    console.log("Invalid Session Id")
+    response.status(201).send('Invalid Session Id');
+    return;
+  }
+  fs.writeFile(TEMP_DIR+sessionId+'/temp.js', js, 'utf8', function (jserr) {
+    if (!jserr) {
+      fs.writeFileSync(TEMP_DIR+sessionId+'/temp.css', css, 'utf8', function (csserr) {
+        if (!csserr) {
+          response.status(200).send('Success')
+        } else {
+          console.log('failed at write css');
+          response.status(201).send('failure')
+        }
+      });
+    } else {
+      console.log('failed at write js');
+      response.status(201).send('failure')
+    }
+  });
+}
+
+exports.set_session_url = function (request, response) {
+  console.log('Recieved: Request to Set Session URL');
+  console.log(request.body);
+  var query = request.query;
+  console.log(query);
+  console.log(sessions);
+  var sessionId = query.session;
+  console.log(sessionId);
+  if (!sessionId || !sessions[sessionId]) {
+    console.log("Invalid Session Id")
+    response.status(201).send('Invalid Session Id');
+    return;
+  }
+  var url = request.body.site;
+  sessions[sessionId].site = url;
+  if (!url) {
+    console.log('Recieved Blank Url');
+    response.status(201).send("Blank URL is invalid");
+    return;
+  }
+  var parsedUrl = URL.parse(url);
+  console.log()
+  var protocol = http;
+  var pport = 80;
+  if (parsedUrl.protocol == "https:") {
+    protocol = https;
+    pport = null
+  }
+  protocol.get({
+    host: parsedUrl.host,
+    path: parsedUrl.path,
+    port: pport,
+  }, function (res) {
+    var html = '';
+    res.setEncoding('utf8');
+    res.on('data', function (data) {
+      html += data;
+    })
+    res.on('end', function () {
+      fs.appendFile(TEMP_DIR+sessionId+'/temp.html', html,  function(err) {
+        if (!err) {
+          console.log('Successfully created html file: ' + TEMP_DIR+sessionId+'/temp.html')
+          response.status(200).send(html);
+        } else {
+          console.log("Failed at creation of: " + 'html');
+          console.log(err);
+          response.status(500).send("Failed to create session html file");
+        }
+      });
+    })
+  }).on('error', function (err) {
+    console.log('Failed to access: ' + url);
+    console.log(err);
+    response.status(500).send('Failed to access: ' + url);
+  });
 }
