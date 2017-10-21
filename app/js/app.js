@@ -12,13 +12,10 @@ if (!sessionId) {
   getNewSession();
 } else {
   console.log("On Session:", sessionId);
-  getSessionCode(function () {
-    setJSCode(js);
-    setCSSCode(css);
-  });
+  getSessionCode();
 }
 
-function getNewSession() {
+function getNewSession(callback) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', endpoint + '/session');
   xhr.send(null);
@@ -31,6 +28,7 @@ function getNewSession() {
         sessionId = response.sessionId; // 'This is the returned text.'
         console.log("New Session:", sessionId);
         window.location.hash = sessionId;
+        getSessionCode();
       } else {
         console.log('Error: ' + xhr.status); // An error occurred during the request.
       }
@@ -38,7 +36,7 @@ function getNewSession() {
   }
 }
 
-function getSessionCode(callback) {
+function getSessionCode() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', endpoint + '/code?session=' + sessionId);
   xhr.send(null);
@@ -50,11 +48,14 @@ function getSessionCode(callback) {
         var response = JSON.parse(xhr.responseText);
         js = response.js;
         css = response.css;
-        callback();
+        setJSCode(js);
+        setCSSCode(css);
       } else {
         console.log('Error: ' + xhr.status, xhr.responseText); // An error occurred during the request.
         console.log("Getting new Session");
-        getNewSession();
+        if (xhr.status == 201) {
+          getNewSession();
+        }
       }
     };
   }

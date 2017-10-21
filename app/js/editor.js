@@ -22,11 +22,11 @@ for (key in cmDefaults) {
   CodeMirror.defaults[key] = cmDefaults[key];
 }
 var jsEditor = CodeMirror(jsTextArea, {
-  value: "// your js here",
+  value: "// setting up...",
   mode: "javascript"
 });
 var cssEditor = CodeMirror(cssTextArea, {
-  value: "/* your css here */",
+  value: "/* setting up... */",
   mode: "css"
 });
 setTimeout(function() {
@@ -99,7 +99,9 @@ function debounce(func, wait) {
   }
 }
 
-function sendCode() {}
+function sendCode() {
+
+}
 
 (function applyEditorChangeListeners() {
   var onJSChange = debounce(function() {
@@ -113,11 +115,13 @@ function sendCode() {}
 })()
 
 function setJSCode(value) {
-  jsEditor.setValue(value);
+  console.log(value);
+  jsEditor.setValue(value || '');
   jsEditor.refresh();
 }
 
 function setCSSCode(value) {
-  cssEditor.setValue(value);
+  console.log(value);
+  cssEditor.setValue(value || '');
   cssEditor.refresh();
 }
