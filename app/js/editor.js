@@ -85,3 +85,39 @@ jsEditorTabButton.addEventListener('click', function () {
     window.addEventListener('mouseup', endResize);
   });
 })()
+
+// On change goodness
+function debounce(func, wait) {
+  var timeout;
+  return function () {
+    clearTimeout(timeout);
+    var context = this, args = arguments;
+    timeout = setTimeout(function () {
+      timeout = null;
+      func.apply(context, args);
+    }, wait);
+  }
+}
+
+function sendCode() {}
+
+(function applyEditorChangeListeners() {
+  var onJSChange = debounce(function() {
+    console.log(jsEditor.getValue());
+  }, 1000);
+  var onCSSChange = debounce(function() {
+    console.log(cssEditor.getValue());
+  }, 1000);
+  jsEditor.on('change', onJSChange);
+  cssEditor.on('change', onCSSChange);
+})()
+
+function setJSCode(value) {
+  jsEditor.setValue(value);
+  jsEditor.refresh();
+}
+
+function setCSSCode(value) {
+  cssEditor.setValue(value);
+  cssEditor.refresh();
+}

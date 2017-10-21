@@ -9,7 +9,7 @@ module.exports = function(app) {
   app.use((req, res, next) => {
     var origin = req.headers.origin;
     var allowedOrigins = [
-      'http://localhost:3000',
+      'http://localhost:3000', 'http://localhost:8080',
       'http://ies.znewton.xyz', 'https://ies.znewton.xyz'
     ]
     console.log(origin);
@@ -31,9 +31,9 @@ module.exports = function(app) {
     .get((req, res) => {
       res.sendFile(path.resolve(__dirname, '/', 'index.html'))
     })
-  app.route('/uploadCSS')
-    .get(controller.upload_css);
-
-  app.route('/uploadJS')
-    .get(controller.upload_js);
+  app.route('/session')
+    .get(controller.gen_session_id);
+  app.route('/code')
+    .post(controller.upload_code)
+    .get(controller.get_code);
 };
