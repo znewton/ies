@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#1da1f2">
+    <meta name="description" content="Open Source Internet Beautification">
+    <meta name="keywords" content="Internet,Enhancement,Suite,InternetEnhancementSuite,pretty,improve">
+    <meta name="author" content="Zach Newton">
+    <meta name="application-name" content="ies">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="lib/codemirror/codemirror.css">
+    <title>Editor | IES - Internet Enhancement Suite</title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <div id="editor">
+      <nav>
+        <button id="css-editor-tab">CSS</button>
+        <button id="js-editor-tab">JS</button>
+      </nav>
+      <div id="js-editor"></div>
+      <div id="css-editor"></div>
+    </div>
+    <div id="preview"></div>
+    
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCAl2lvhUi3NPJ6EfzRW4VroPVlDgtWncI",
+        authDomain: "internet-enhancement-suite.firebaseapp.com",
+        databaseURL: "https://internet-enhancement-suite.firebaseio.com",
+        projectId: "internet-enhancement-suite",
+        storageBucket: "",
+        messagingSenderId: "713362827174"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script src="lib/codemirror/codemirror.js"></script>
+    <script src="lib/codemirror/mode/javascript.js"></script>
+    <script src="lib/codemirror/mode/css.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
