@@ -174,13 +174,13 @@ exports.set_session_url = function (request, response) {
       var endHeadIndex = html.indexOf("</head>");
       if (endHeadIndex >= 0) {
         html = [html.slice(0,endHeadIndex), 
-          '<link rel="stylesheet" href="http://localhost:3000/temp/'+sessionId+'/temp.css">',
+          '<link rel="stylesheet" href="http://znewt-ies.herokuapp.com/temp/'+sessionId+'/temp.css">',
           html.slice(endHeadIndex)].join('');
       }
       var endBodyIndex = html.indexOf("</body>");
       if (endBodyIndex >= 0) {
         html = [html.slice(0,endBodyIndex), 
-          '<script href="http://localhost:3000/temp/'+sessionId+'/temp.js"></scrip>',
+          '<script href="http://znewt-ies.herokuapp.com/temp/'+sessionId+'/temp.js"></scrip>',
           html.slice(endBodyIndex)].join('');
       }
       fs.writeFile(TEMP_DIR+sessionId+'/temp.html', html,  function(err) {
