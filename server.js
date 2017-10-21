@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-const routes = require('./routes');
+const routes = require('./server/routes');
 routes(app);
 
 const server = app.listen(port);

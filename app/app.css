@@ -6,6 +6,11 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: false;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+}
+button {
+  font-family: inherit;
+  font-size: inherit;
 }
 #editor, #preview {
   position: fixed;
@@ -16,7 +21,66 @@ body {
 
 /* Editor Styling */
 #editor {
-  left: 0vw;
+  left: 0;
+  background-color: #4e4e4e;
+  border-right: 1px solit 
+}
+#editor nav {
+  height: 2.4em;
+  display: flex;
+  background-color: #2e2e2e;
+}
+#editor nav button {
+  flex-basis: 1;
+  flex-shrink: 1;
+  font-weight: bold;
+  color: #8e8e8e;
+  padding: 0 2.5em;
+  vertical-align: middle;
+  line-height: 100%;
+  border: none;
+  border-right: 1px solid #1e1e1e;
+  background-color: transparent;
+}
+#editor nav button.selected {
+  color: #dedede;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid #1da1f2;
+  padding-top: 2px;
+}
+#editor nav button:focus {
+  outline: none;
+}
+#editor nav button:hover {
+  cursor: pointer;
+  color: #aeaeae;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#editor [role="tab"] {
+  display: none;
+  position: fixed;
+  top: 2.4em;
+  left: 0;
+  height: calc(100vw - 2.4em);
+}
+
+#editor [role="tab"].open {
+  display: block;
+}
+
+/* Separator styling */
+#separator {
+  position: fixed;
+  width: 0.5vw;
+  background-color: #1e1e1e;
+  left: 49.75vw; right: 50.25vw;
+  top: 0;
+  height: 100vh;
+}
+#separator:hover {
+  cursor: col-resize;
+  background-color: #0e0e0e;
 }
 
 /* Preview Styling */

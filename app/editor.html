@@ -19,13 +19,14 @@
   <body>
     <div id="editor">
       <nav>
-        <button id="css-editor-tab">CSS</button>
-        <button id="js-editor-tab">JS</button>
+        <button id="css-editor-tab-button">CSS</button>
+        <button id="js-editor-tab-button">JS</button>
       </nav>
-      <div id="js-editor"></div>
-      <div id="css-editor"></div>
+      <div id="css-editor-tab" role="tab">css</div>
+      <div id="js-editor-tab" role="tab">js</div>
     </div>
-    <div id="preview"></div>
+    <div id="separator"></div>
+    <div id="preview">This will eventually be a preview</div>
     
     <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
     <script>

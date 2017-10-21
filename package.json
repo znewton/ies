@@ -1,11 +1,12 @@
 {
-  "name": "ies-server",
+  "name": "ies",
   "version": "1.0.0",
-  "description": "The NodeJS server for Internet Enhancement Suite",
+  "description": "The Internet Enhancement Suite",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node dev-server.js"
   },
   "repository": {
     "type": "git",
